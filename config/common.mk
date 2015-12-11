@@ -217,71 +217,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 PRODUCT_PACKAGE_OVERLAYS += vendor/zeus/overlay/common
 
-PRODUCT_VERSION_MAJOR = 13
-PRODUCT_VERSION_MINOR = 0
-PRODUCT_VERSION_MAINTENANCE = 0-RC0
-
-# Set ZEUS_BUILDTYPE from the env RELEASE_TYPE, for jenkins compat
-
-ifndef ZEUS_BUILDTYPE
-    ifdef RELEASE_TYPE
-        # Starting with "ZEUS_" is optional
-        RELEASE_TYPE := $(shell echo $(RELEASE_TYPE) | sed -e 's|^ZEUS_||g')
-        ZEUS_BUILDTYPE := $(RELEASE_TYPE)
-    endif
-endif
-
-# Filter out random types, so it'll reset to UNOFFICIAL
-ifeq ($(filter RELEASE NIGHTLY SNAPSHOT EXPERIMENTAL,$(ZEUS_BUILDTYPE)),)
-    ZEUS_BUILDTYPE :=
-endif
-
-ifdef ZEUS_BUILDTYPE
-    ifneq ($(ZEUS_BUILDTYPE), SNAPSHOT)
-        ifdef ZEUS_EXTRAVERSION
-            # Force build type to EXPERIMENTAL
-            ZEUS_BUILDTYPE := EXPERIMENTAL
-            # Remove leading dash from ZEUS_EXTRAVERSION
-            ZEUS_EXTRAVERSION := $(shell echo $(ZEUS_EXTRAVERSION) | sed 's/-//')
-            # Add leading dash to ZEUS_EXTRAVERSION
-            ZEUS_EXTRAVERSION := -$(ZEUS_EXTRAVERSION)
-        endif
-    else
-        ifndef ZEUS_EXTRAVERSION
-            # Force build type to EXPERIMENTAL, SNAPSHOT mandates a tag
-            ZEUS_BUILDTYPE := EXPERIMENTAL
-        else
-            # Remove leading dash from ZEUS_EXTRAVERSION
-            ZEUS_EXTRAVERSION := $(shell echo $(ZEUS_EXTRAVERSION) | sed 's/-//')
-            # Add leading dash to ZEUS_EXTRAVERSION
-            ZEUS_EXTRAVERSION := -$(ZEUS_EXTRAVERSION)
-        endif
-    endif
-else
-    # If ZEUS_BUILDTYPE is not defined, set to UNOFFICIAL
-    ZEUS_BUILDTYPE := UNOFFICIAL
-    ZEUS_EXTRAVERSION :=
-endif
-
-ifeq ($(ZEUS_BUILDTYPE), UNOFFICIAL)
-    ifneq ($(TARGET_UNOFFICIAL_BUILD_ID),)
-        ZEUS_EXTRAVERSION := -$(TARGET_UNOFFICIAL_BUILD_ID)
-    endif
-endif
-
-ifeq ($(ZEUS_BUILDTYPE), RELEASE)
-    ifndef TARGET_VENDOR_RELEASE_BUILD_ID
-        ZEUS_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(PRODUCT_VERSION_MAINTENANCE)$(PRODUCT_VERSION_DEVICE_SPECIFIC)-$(ZEUS_BUILD)
-    else
-        ifeq ($(TARGET_BUILD_VARIANT),user)
-            ZEUS_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(TARGET_VENDOR_RELEASE_BUILD_ID)-$(ZEUS_BUILD)
-        else
-            ZEUS_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(PRODUCT_VERSION_MAINTENANCE)$(PRODUCT_VERSION_DEVICE_SPECIFIC)-$(ZEUS_BUILD)
-        endif
-    endif
-else
-    ZEUS_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(shell date -u +%Y%m%d)-$(ZEUS_BUILDTYPE)$(ZEUS_EXTRAVERSION)-$(ZEUS_BUILD)
-endif
+PRODUCT_VERSION = 6.0.1
+    ZEUS_VERSION := Zeus-Marshmallow-v$(PRODUCT_VERSION)-$(shell date -u +%Y%m%d)-$(ZEUS_BUILD)
 
 PRODUCT_PROPERTY_OVERRIDES += \
   ro.zeus.version=$(ZEUS_VERSION) \
