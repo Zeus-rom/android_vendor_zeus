@@ -1,10 +1,10 @@
-# Inherit common CM stuff
-$(call inherit-product, vendor/cm/config/common.mk)
+# Inherit common ZEUS stuff
+$(call inherit-product, vendor/zeus/config/common.mk)
 
-# Include CM audio files
-include vendor/cm/config/cm_audio.mk
+# Include ZEUS audio files
+include vendor/zeus/config/zeus_audio.mk
 
-# Optional CM packages
+# Optional ZEUS packages
 PRODUCT_PACKAGES += \
     Galaxy4 \
     HoloSpiralWallpaper \
@@ -17,7 +17,7 @@ PRODUCT_PACKAGES += \
     SoundRecorder \
     PhotoPhase
 
-# Extra tools in CM
+# Extra tools in ZEUS
 PRODUCT_PACKAGES += \
     7z \
     bash \

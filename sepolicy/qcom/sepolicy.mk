@@ -1,2 +1,2 @@
 BOARD_SEPOLICY_DIRS += \
-    vendor/cm/sepolicy/qcom
+    vendor/zeus/sepolicy/qcom

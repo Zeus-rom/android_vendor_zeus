@@ -1,12 +1,12 @@
-# Inherit common CM stuff
-$(call inherit-product, vendor/cm/config/common_full.mk)
+# Inherit common ZEUS stuff
+$(call inherit-product, vendor/zeus/config/common_full.mk)
 
-# Required CM packages
+# Required ZEUS packages
 PRODUCT_PACKAGES += \
     LatinIME
 
-# Include CM LatinIME dictionaries
-PRODUCT_PACKAGE_OVERLAYS += vendor/cm/overlay/dictionaries
+# Include ZEUS LatinIME dictionaries
+PRODUCT_PACKAGE_OVERLAYS += vendor/zeus/overlay/dictionaries
 
 # Default notification/alarm sounds
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -15,5 +15,5 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 ifeq ($(TARGET_SCREEN_WIDTH) $(TARGET_SCREEN_HEIGHT),$(space))
     PRODUCT_COPY_FILES += \
-        vendor/cm/prebuilt/common/bootanimation/800.zip:system/media/bootanimation.zip
+        vendor/zeus/prebuilt/common/bootanimation/800.zip:system/media/bootanimation.zip
 endif
