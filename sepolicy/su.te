@@ -59,7 +59,6 @@ userdebug_or_eng(`
   allow untrusted_app superuser_device:dir { r_dir_perms };
   allow untrusted_app superuser_device:sock_file { write };
 
-
   # For Settings control of access
   allow system_app superuser_device:sock_file { read write create setattr unlink getattr };
   allow system_app sudaemon:unix_stream_socket { connectto read write setopt ioctl };

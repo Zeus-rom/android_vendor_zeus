@@ -21,6 +21,7 @@ PRODUCT_PACKAGES += \
 # Extra tools in ZEUS
 PRODUCT_PACKAGES += \
     7z \
+    lib7z \
     bash \
     bzip2 \
     curl \
