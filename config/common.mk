@@ -93,8 +93,8 @@ PRODUCT_COPY_FILES += \
 
 # LCD density backup
 PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/bin/97-backup.sh:system/addon.d/97-backup.sh \
-    vendor/cm/prebuilt/common/etc/backup.conf:system/etc/backup.conf 
+    vendor/zeus/prebuilt/common/bin/97-backup.sh:system/addon.d/97-backup.sh \
+    vendor/zeus/prebuilt/common/etc/backup.conf:system/etc/backup.conf 
 
 # init.d support
 PRODUCT_COPY_FILES += \
@@ -148,13 +148,8 @@ PRODUCT_PACKAGES += \
 # Omni Apps
 PRODUCT_PACKAGES += \
     OmniSwitch
-<<<<<<< HEAD
  
 # Custom ZEUS packages
-=======
-
-# Custom CM packages
->>>>>>> aeda11ebb62b7cd8d91f2814bf75e0cff6b318ac
 PRODUCT_PACKAGES += \
     Launcher3 \
     Trebuchet \
@@ -163,10 +158,6 @@ PRODUCT_PACKAGES += \
     CMFileManager \
     Eleven \
     LockClock \
-<<<<<<< HEAD
-=======
-    CyanogenSetupWizard \
->>>>>>> aeda11ebb62b7cd8d91f2814bf75e0cff6b318ac
     CMSettingsProvider \
     ExactCalculator
 
