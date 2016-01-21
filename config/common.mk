@@ -123,6 +123,13 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     frameworks/base/data/keyboards/Vendor_045e_Product_028e.kl:system/usr/keylayout/Vendor_045e_Product_0719.kl
 
+# Viper4Android
+PRODUCT_COPY_FILES += \
+   vendor/zeus/prebuilt/common/bin/audio_policy.sh:system/audio_policy.sh \
+   vendor/zeus/prebuilt/common/addon.d/95-LolliViPER.sh:system/addon.d/95-LolliViPER.sh \
+   vendor/zeus/prebuilt/common/su.d/50viper.sh:system/su.d/50viper.sh \
+   vendor/zeus/prebuilt/common/app/Viper4Android/Viper4Android.apk:system/priv-app/Viper4Android/Viper4Android.apk 
+
 # This is ZEUS!
 PRODUCT_COPY_FILES += \
     vendor/zeus/config/permissions/com.cyanogenmod.android.xml:system/etc/permissions/com.cyanogenmod.android.xml
