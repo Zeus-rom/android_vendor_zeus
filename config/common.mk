@@ -5,16 +5,8 @@ ifneq ($(TARGET_SCREEN_WIDTH) $(TARGET_SCREEN_HEIGHT),$(space))
 ifeq ($(SCREEN_RATIO_PROPORTIONATE),true)
 # Set bootanimation size to width to differentiate between tablet and phone devices for aspect ratio
 TARGET_BOOTANIMATION_SIZE := $(TARGET_SCREEN_WIDTH)
+TARGET_BOOTANIMATION_NAME := $(TARGET_BOOTANIMATION_SIZE)
 else
-# determine the smaller dimension
-TARGET_BOOTANIMATION_SIZE := $(shell \
-  if [ $(TARGET_SCREEN_WIDTH) -lt $(TARGET_SCREEN_HEIGHT) ]; then \
-    echo $(TARGET_SCREEN_WIDTH); \
-  else \
-    echo $(TARGET_SCREEN_HEIGHT); \
-  fi )
-endif
-
 # get a sorted list of the sizes
 bootanimation_sizes := $(subst .zip,, $(shell ls vendor/zeus/prebuilt/common/bootanimation))
 bootanimation_sizes := $(shell echo -e $(subst $(space),'\n',$(bootanimation_sizes)) | sort -rn)
@@ -31,6 +23,7 @@ $(eval TARGET_BOOTANIMATION_NAME := $(shell \
   echo $(TARGET_BOOTANIMATION_NAME); ))
 endef
 $(foreach size,$(bootanimation_sizes), $(call check_and_set_bootanimation,$(size)))
+endif
 
 ifeq ($(TARGET_BOOTANIMATION_HALF_RES),true)
 PRODUCT_BOOTANIMATION := vendor/zeus/prebuilt/common/bootanimation/halfres/$(TARGET_BOOTANIMATION_NAME).zip
