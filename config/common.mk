@@ -231,7 +231,13 @@ endif
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.sys.root_access=0
 
-PRODUCT_PACKAGE_OVERLAYS += vendor/zeus/overlay/common
+DEVICE_PACKAGE_OVERLAYS += vendor/zeus/overlay/common
+
+PRODUCT_VERSION_MAJOR = 13
+PRODUCT_VERSION_MINOR = 0
+PRODUCT_VERSION_MAINTENANCE = 0-RC0
+
+# Set CM_BUILDTYPE from the env RELEASE_TYPE, for jenkins compat
 
 PRODUCT_VERSION = 6.0.1
     ZEUS_VERSION := Zeus-Marshmallow-v$(PRODUCT_VERSION)-$(shell date -u +%Y%m%d)-$(ZEUS_BUILD)
