@@ -157,8 +157,7 @@ PRODUCT_PACKAGES += \
     LockClock \
     CMSettingsProvider \
     ExactCalculator \
-    LiveLockScreenService \
-    WeatherProvider
+    LiveLockScreenService
 
 # Exchange support
 PRODUCT_PACKAGES += \
