@@ -117,6 +117,9 @@ PRODUCT_COPY_FILES += \
    vendor/zeus/prebuilt/common/su.d/50viper.sh:system/su.d/50viper.sh \
    vendor/zeus/prebuilt/common/app/Viper4Android/Viper4Android.apk:system/priv-app/Viper4Android/Viper4Android.apk 
 
+# Zeus Controls
+PRODUCT_COPY_FILES += vendor/zeus/prebuilt/common/app/ZeusControls/ZeusControls.apk:system/priv-app/ZeusControls/ZeusControls.apk
+
 # This is ZEUS!
 PRODUCT_COPY_FILES += \
     vendor/zeus/config/permissions/com.cyanogenmod.android.xml:system/etc/permissions/com.cyanogenmod.android.xml
