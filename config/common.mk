@@ -160,7 +160,8 @@ PRODUCT_PACKAGES += \
     LockClock \
     CMSettingsProvider \
     ExactCalculator \
-    LiveLockScreenService
+    LiveLockScreenService \
+    DataUsageProvider
 
 # DU Utils Library
 PRODUCT_PACKAGES += \
