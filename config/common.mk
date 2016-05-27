@@ -66,7 +66,7 @@ PRODUCT_COPY_FILES += \
     vendor/zeus/CHANGELOG.mkdn:system/etc/CHANGELOG-ZEUS.txt
 
 # Backup Tool
-ifneq ($(WITH_GMS),true)
+ifeq ($(WITH_GMS),true)
 PRODUCT_COPY_FILES += \
     vendor/zeus/prebuilt/common/bin/backuptool.sh:install/bin/backuptool.sh \
     vendor/zeus/prebuilt/common/bin/backuptool.functions:install/bin/backuptool.functions \
