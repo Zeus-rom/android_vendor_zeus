@@ -1,6 +1,8 @@
 # Inherit common ZEUS stuff
 $(call inherit-product, vendor/zeus/config/common.mk)
 
+PRODUCT_SIZE := full
+
 # Include ZEUS audio files
 include vendor/zeus/config/zeus_audio.mk
 
