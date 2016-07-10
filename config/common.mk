@@ -74,6 +74,10 @@ PRODUCT_COPY_FILES += \
     vendor/zeus/prebuilt/common/bin/blacklist:system/addon.d/blacklist
 endif
 
+# Backup Services whitelist
+PRODUCT_COPY_FILES += \
+    vendor/zeus/config/permissions/backup.xml:system/etc/sysconfig/backup.xml
+
 # Signature compatibility validation
 PRODUCT_COPY_FILES += \
     vendor/zeus/prebuilt/common/bin/otasigcheck.sh:install/bin/otasigcheck.sh
