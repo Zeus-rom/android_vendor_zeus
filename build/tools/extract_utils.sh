@@ -224,7 +224,7 @@ function write_packages() {
             else
                 printf 'LOCAL_SRC_FILES := %s/lib/%s\n' "$SRC" "$FILE"
             fi
-            if [ "$EXTRA" != "none" ]; then
+            if [ ! -z "$EXTRA" ]; then
                 printf 'LOCAL_MULTILIB := %s\n' "$EXTRA"
             fi
         elif [ "$CLASS" = "APPS" ]; then
@@ -299,27 +299,41 @@ function write_product_packages() {
     local LIB32=( $(comm -23 <(printf '%s\n'  "${T_LIB32[@]}") <(printf '%s\n' "${MULTILIBS[@]}")) )
     local LIB64=( $(comm -23 <(printf '%s\n' "${T_LIB64[@]}") <(printf '%s\n' "${MULTILIBS[@]}")) )
 
-    if [ "${#MULTILIBS[@]}" -gt "0" ]; then
-        write_packages "SHARED_LIBRARIES" "false" "both" "MULTILIBS" >> "$ANDROIDMK"
-    fi
-    if [ "${#LIB32[@]}" -gt "0" ]; then
-        write_packages "SHARED_LIBRARIES" "false" "32" "LIB32" >> "$ANDROIDMK"
-    fi
-    if [ "${#LIB64[@]}" -gt "0" ]; then
-        write_packages "SHARED_LIBRARIES" "false" "64" "LIB64" >> "$ANDROIDMK"
-    fi
-
     local T_V_LIB32=( $(prefix_match "vendor/lib/") )
     local T_V_LIB64=( $(prefix_match "vendor/lib64/") )
     local V_MULTILIBS=( $(comm -12 <(printf '%s\n' "${T_V_LIB32[@]}") <(printf '%s\n' "${T_V_LIB64[@]}")) )
     local V_LIB32=( $(comm -23 <(printf '%s\n' "${T_V_LIB32[@]}") <(printf '%s\n' "${V_MULTILIBS[@]}")) )
     local V_LIB64=( $(comm -23 <(printf '%s\n' "${T_V_LIB64[@]}") <(printf '%s\n' "${V_MULTILIBS[@]}")) )
 
+    local USE_MULTILIB=0
+    if [ "${#MULTILIBS[@]}" -gt "0" -o "${#LIB64[@]}" -gt "0" \
+            -o "${#V_MULTILIBS[@]}" -gt "0" -o "${#V_LIB64[@]}" -gt "0" ] ; then
+        USE_MULTILIB=1
+    fi
+
+    if [ "${#MULTILIBS[@]}" -gt "0" ]; then
+        write_packages "SHARED_LIBRARIES" "false" "both" "MULTILIBS" >> "$ANDROIDMK"
+    fi
+    if [ "${#LIB32[@]}" -gt "0" ]; then
+        local EXTRA=
+        if [ "$USE_MULTILIB" -eq "1" ]; then
+            EXTRA="32"
+        fi
+        write_packages "SHARED_LIBRARIES" "false" "$EXTRA" "LIB32" >> "$ANDROIDMK"
+    fi
+    if [ "${#LIB64[@]}" -gt "0" ]; then
+        write_packages "SHARED_LIBRARIES" "false" "64" "LIB64" >> "$ANDROIDMK"
+    fi
+
     if [ "${#V_MULTILIBS[@]}" -gt "0" ]; then
         write_packages "SHARED_LIBRARIES" "true" "both" "V_MULTILIBS" >> "$ANDROIDMK"
     fi
     if [ "${#V_LIB32[@]}" -gt "0" ]; then
-        write_packages "SHARED_LIBRARIES" "true" "32" "V_LIB32" >> "$ANDROIDMK"
+        local EXTRA=
+        if [ "$USE_MULTILIB" -eq "1" ]; then
+            EXTRA="32"
+        fi
+        write_packages "SHARED_LIBRARIES" "true" "$EXTRA" "V_LIB32" >> "$ANDROIDMK"
     fi
     if [ "${#V_LIB64[@]}" -gt "0" ]; then
         write_packages "SHARED_LIBRARIES" "true" "64" "V_LIB64" >> "$ANDROIDMK"
@@ -486,11 +500,18 @@ function _adb_connected {
 };
 
 #
-# parse_file_list
+# parse_file_list:
+#
+# $1: input file
+#
+# Sets PRODUCT_PACKAGES and PRODUCT_COPY_FILES while parsing the input file
 #
 function parse_file_list() {
-    if [ ! -e "$1" ]; then
-        echo "$1 does not exist!"
+    if [ -z "$1" ]; then
+        echo "An input file is expected!"
+        exit 1
+    elif [ ! -f "$1" ]; then
+        echo "Input file "$1" does not exist!"
         exit 1
     fi
 
@@ -520,10 +541,6 @@ function parse_file_list() {
 # the product makefile.
 #
 function write_makefiles() {
-    if [ ! -e "$1" ]; then
-        echo "$1 does not exist!"
-        exit 1
-    fi
     parse_file_list "$1"
     write_product_copy_files
     write_product_packages
@@ -566,11 +583,6 @@ function init_adb_connection() {
 # $2: path to extracted system folder, or "adb" to extract from device
 #
 function extract() {
-    if [ ! -e "$1" ]; then
-        echo "$1 does not exist!"
-        exit 1
-    fi
-
     if [ -z "$OUTDIR" ]; then
         echo "Output dir not set!"
         exit 1
