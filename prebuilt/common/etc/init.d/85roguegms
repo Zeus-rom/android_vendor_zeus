@@ -1,0 +1,12 @@
+#!/system/bin/sh
+
+while true;
+do 
+	bad="$(top -m 1 -n 1 | grep -o com.google.android.gms.persistent)";
+	if [ "$bad" == "com.google.android.gms.persistent" ]; then
+		pid="$(pidof com.google.android.gms.persistent)";
+		kill $pid;
+	else
+		sleep 10;
+	fi
+done
